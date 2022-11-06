@@ -1,11 +1,6 @@
-# Patchwerk Radio
+# Memento Radio
 
-Rebooting Patchwerk radio
-
-
-## Description
-
-finally...
+Fragmentary sounds internet radio
 
 
 ## Contact
