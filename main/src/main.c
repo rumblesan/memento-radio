@@ -11,9 +11,9 @@
 #include "broadcast_process.h"
 #include "config.h"
 #include "encoder_process.h"
+#include "file_utils.h"
 #include "logging.h"
 #include "messages.h"
-#include "patch_chooser_process.h"
 #include "pipe_utils.h"
 
 #include "bclib/bstrlib.h"
@@ -24,20 +24,16 @@ int main(int argc, char *argv[]) {
 
   RadioInputCfg *radio_config = NULL;
 
-  PatchChooserProcessConfig *patch_chooser_cfg = NULL;
   AudioSynthesisProcessConfig *audio_synth_cfg = NULL;
   EncoderProcessConfig *encoder_cfg = NULL;
   BroadcastProcessConfig *broadcast_cfg = NULL;
 
-  pthread_t patch_chooser_thread;
-  pthread_attr_t patch_chooser_thread_attr;
   pthread_t audio_synth_thread;
   pthread_attr_t audio_synth_thread_attr;
   pthread_t encoder_thread;
   pthread_attr_t encoder_thread_attr;
   pthread_t broadcast_thread;
   pthread_attr_t broadcast_thread_attr;
-  int patch_chooser_status = 0;
   int audio_synth_status = 0;
   int encoder_status = 0;
   int broadcast_status = 0;
@@ -51,9 +47,9 @@ int main(int argc, char *argv[]) {
   ck_ring_t *encode2broadcast = NULL;
   ck_ring_buffer_t *encode2broadcast_buffer = NULL;
 
-  startup_log("PatchwerkRadio", "Hello, Patchwerk Radio");
+  startup_log("MementoRadio", "Hello, Memento Radio");
   time_t t = time(NULL);
-  logger("PatchwerkRadio", "%s", asctime(gmtime(&t)));
+  logger("MementoRadio", "%s", asctime(gmtime(&t)));
   srand((unsigned)t);
 
   check(argc == 2, "Need to give config file path argument");
@@ -70,17 +66,11 @@ int main(int argc, char *argv[]) {
   check(create_pipe(&encode2broadcast, &encode2broadcast_buffer, 32),
         "Could not create audio to encoder ring buffer");
 
-  patch_chooser_cfg = patch_chooser_config_create(
-      radio_config->chooser.pattern, 10.0, -1, 10, &patch_chooser_status,
-      chooser2audio, chooser2audio_buffer);
-  check(patch_chooser_cfg != NULL,
-        "Couldn't create patch chooser process config");
-
   audio_synth_cfg = audio_synthesis_config_create(
       radio_config->audio.samplerate, radio_config->audio.channels,
-      radio_config->audio.fadetime, radio_config->system.max_push_messages,
-      &audio_synth_status, chooser2audio, chooser2audio_buffer, audio2encode,
-      audio2encode_buffer);
+      radio_config->audio.fadetime, &radio_config->puredata,
+      radio_config->system.max_push_messages, &audio_synth_status,
+      chooser2audio, chooser2audio_buffer, audio2encode, audio2encode_buffer);
   check(audio_synth_cfg != NULL, "Couldn't create audio synth process config");
 
   encoder_cfg = encoder_config_create(
@@ -99,15 +89,6 @@ int main(int argc, char *argv[]) {
       radio_config->broadcast.url, SHOUT_PROTOCOL_HTTP, SHOUT_FORMAT_OGG,
       &broadcast_status, encode2broadcast, encode2broadcast_buffer);
   check(broadcast_cfg != NULL, "Couldn't create broadcast process config");
-
-  check(!pthread_attr_init(&patch_chooser_thread_attr),
-        "Error setting patch chooser thread attributes");
-  check(!pthread_attr_setdetachstate(&patch_chooser_thread_attr,
-                                     PTHREAD_CREATE_DETACHED),
-        "Error setting patch chooser thread detach state");
-  check(!pthread_create(&patch_chooser_thread, &patch_chooser_thread_attr,
-                        &start_patch_chooser, patch_chooser_cfg),
-        "Error creating audio synth thread");
 
   check(!pthread_attr_init(&audio_synth_thread_attr),
         "Error setting audio synth thread attributes");
@@ -136,14 +117,23 @@ int main(int argc, char *argv[]) {
                         &start_broadcast, broadcast_cfg),
         "Error creating broadcasting thread");
 
+  // Everything up and ready so load patch
+
+  PatchInfo *pi = path_to_patchinfo(radio_config->puredata.patch_file);
+  logger("PatchChooser", "next patch: %s - %s", bdata(pi->creator),
+         bdata(pi->title));
+  Message *msg = load_patch_message(pi);
+  if (!ck_ring_enqueue_spsc(chooser2audio, chooser2audio_buffer, msg)) {
+    err_logger("PatchChooser", "Could not send New Patch message");
+    err_logger("PatchChooser", "size %d    capacity %d",
+               ck_ring_size(chooser2audio), ck_ring_capacity(chooser2audio));
+    message_destroy(msg);
+  }
+
   int as2enc_msgs = 0;
   int enc2brd_msgs = 0;
   while (1) {
     sleep(radio_config->system.stats_interval);
-    if (patch_chooser_status == 0) {
-      err_logger("SlowRadio", "Stopped Patch Chooser!");
-      break;
-    }
     if (audio_synth_status == 0) {
       err_logger("SlowRadio", "Stopped Synthesising!");
       break;
@@ -173,8 +163,6 @@ error:
   cleanup_pipe(encode2broadcast, encode2broadcast_buffer,
                "Encode to Broadcast");
 
-  if (patch_chooser_cfg != NULL)
-    patch_chooser_config_destroy(patch_chooser_cfg);
   if (audio_synth_cfg != NULL)
     audio_synthesis_config_destroy(audio_synth_cfg);
   if (encoder_cfg != NULL)

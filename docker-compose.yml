@@ -1,7 +1,10 @@
 version: '3.9'
+
 services:
   patchwerk:
     build: .
+    volumes:
+      - ./samples:/opt/patchwerk/samples
     image: rumblesan/patchwerk-radio
   icecast:
     image: moul/icecast

@@ -6,6 +6,7 @@
 #include "bclib/bstrlib.h"
 
 #include "messages.h"
+#include "config.h"
 
 typedef enum {
   AS_WAITING_FOR_PATCH,
@@ -19,6 +20,10 @@ typedef struct AudioSynthesisProcessConfig {
 
   int samplerate;
   int channels;
+
+  // TODO this is ugly.
+  // fix once it's all working
+  PureDataInputCfg *pd_cfg;
 
   void *patch_file;
   int blocksize;
@@ -43,6 +48,7 @@ typedef struct AudioSynthesisProcessConfig {
 AudioSynthesisProcessConfig *
 audio_synthesis_config_create(
                               int samplerate, int channels, double fadetime,
+                              PureDataInputCfg *pd_cfg,
                               int max_push_msgs, int *status_var,
                               ck_ring_t *pipe_in, ck_ring_buffer_t *pipe_in_buffer,
                               ck_ring_t *pipe_out, ck_ring_buffer_t *pipe_out_buffer

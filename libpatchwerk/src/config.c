@@ -53,6 +53,9 @@ RadioInputCfg *read_config(char *config_path) {
             config_setting_lookup_bstring(
                 pdsetting, "patch_directory",
                 &(radio_config->puredata.patch_directory)) &&
+            config_setting_lookup_bstring(
+                pdsetting, "search_path",
+                &(radio_config->puredata.search_path)) &&
             config_setting_lookup_bstring(pdsetting, "patch_file",
                                           &(radio_config->puredata.patch_file)),
         "Could not read pure data settings");

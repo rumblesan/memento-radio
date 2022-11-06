@@ -13,15 +13,18 @@
 #include <libpd/z_libpd.h>
 
 AudioSynthesisProcessConfig *audio_synthesis_config_create(
-    int samplerate, int channels, double fadetime, int max_push_msgs,
-    int *status_var, ck_ring_t *pipe_in, ck_ring_buffer_t *pipe_in_buffer,
-    ck_ring_t *pipe_out, ck_ring_buffer_t *pipe_out_buffer) {
+    int samplerate, int channels, double fadetime, PureDataInputCfg *pd_cfg,
+    int max_push_msgs, int *status_var, ck_ring_t *pipe_in,
+    ck_ring_buffer_t *pipe_in_buffer, ck_ring_t *pipe_out,
+    ck_ring_buffer_t *pipe_out_buffer) {
 
   AudioSynthesisProcessConfig *cfg =
       malloc(sizeof(AudioSynthesisProcessConfig));
   check_mem(cfg);
 
   cfg->patch_file = NULL;
+
+  cfg->pd_cfg = pd_cfg;
 
   cfg->blocksize = 0;
 
@@ -132,6 +135,8 @@ int setup_pd(AudioSynthesisProcessConfig *cfg) {
   check(cfg != NULL, "AudioSynthesis: Invalid config");
   logger("AudioSynthesis", "initing pd");
   libpd_init();
+  libpd_add_to_search_path(bdata(cfg->pd_cfg->search_path));
+  libpd_add_to_search_path("/opt/patchwerk/samples");
   logger("AudioSynthesis", "done initing pd");
 
   int pd_init = libpd_init_audio(0, cfg->channels, cfg->samplerate);
@@ -212,11 +217,16 @@ void fade_audio_in(AudioSynthesisProcessConfig *cfg, AudioBuffer *audio) {
   }
 }
 
+static void pd_printhook(const char *s) { logger("PD:", "%s", s); }
+
 void *start_audio_synthesis(void *_cfg) {
 
   AudioSynthesisProcessConfig *cfg = _cfg;
 
   *(cfg->status_var) = 1;
+
+  // libpd_set_verbose(1);
+  libpd_set_printhook((t_libpd_printhook)pd_printhook);
 
   check(!setup_pd(cfg), "Could not setup PureData");
   logger("AudioSynthesis", "PD setup");

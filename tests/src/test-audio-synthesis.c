@@ -25,7 +25,7 @@ char *test_audio_synthesis_config_create() {
   create_pipe(&pipe_out, &pipe_out_buffer, queue_size);
 
   AudioSynthesisProcessConfig *cfg = audio_synthesis_config_create(
-      samplerate, channels, fadetime, max_push_msgs, &audio_synth_status,
+      samplerate, channels, fadetime, NULL, max_push_msgs, &audio_synth_status,
       pipe_in, pipe_in_buffer, pipe_out, pipe_out_buffer);
 
   mu_assert(cfg != NULL, "Could not create audio synthesis process config");

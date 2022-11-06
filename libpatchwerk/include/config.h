@@ -14,6 +14,7 @@ typedef struct PatchChooserCfg {
 
 typedef struct PureDataInputCfg {
   bstring patch_directory;
+  bstring search_path;
   bstring patch_file;
 } PureDataInputCfg;
 
