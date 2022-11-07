@@ -28,15 +28,17 @@ FROM debian:stretch-slim
 
 RUN apt-get update
 RUN apt-get install -y libshout3 libconfig9 libvorbis-dev libsndfile1 libck-dev
-RUN mkdir -p /opt/memento
+RUN mkdir -p /opt/memento/app
+RUN mkdir -p /opt/memento/cfg
+RUN mkdir -p /opt/memento/patches
 
-WORKDIR /opt/memento
+WORKDIR /opt/memento/app
 
 COPY --from=builder /opt/memento/build/main/memento /usr/local/bin/
 COPY patches /opt/memento/patches
 
 # this feels sketchy...
 COPY --from=builder /usr/local/lib/libpd.so /usr/local/lib/
-COPY radio.cfg /opt/memento/
+COPY cfg/radio.cfg /opt/memento/cfg
 
 CMD ["memento", "/opt/memento/radio.cfg"]
