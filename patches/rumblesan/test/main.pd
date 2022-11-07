@@ -1,0 +1,19 @@
+#N canvas 958 361 1097 896 12;
+#X obj 339 160 metro 1000;
+#X obj 324 93 loadbang;
+#X msg 324 117 1;
+#X obj 236 247 osc~ 200;
+#X obj 249 348 dac~;
+#X obj 338 232 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 239 292 *~;
+#X obj 397 223 print ping;
+#X msg 370 187 ping;
+#X connect 0 0 5 0;
+#X connect 0 0 8 0;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 6 0;
+#X connect 5 0 6 1;
+#X connect 6 0 4 0;
+#X connect 8 0 7 0;
