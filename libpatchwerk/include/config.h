@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bclib/bstrlib.h"
+#include "bclib/list.h"
 
 typedef struct AudioInputCfg {
   int channels;
@@ -14,8 +15,9 @@ typedef struct PatchChooserCfg {
 
 typedef struct PureDataInputCfg {
   bstring patch_directory;
-  bstring search_path;
+  List *search_paths;
   bstring patch_file;
+  int verbose;
 } PureDataInputCfg;
 
 typedef struct EncoderInputCfg {

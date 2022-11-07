@@ -19,8 +19,9 @@ char *test_patch_finish_message_create() {
 }
 
 char *test_load_patch_message_create() {
-  PatchInfo *patch_info = patch_info_create(
-      bfromcstr("creator"), bfromcstr("title"), bfromcstr("path"));
+  PatchInfo *patch_info =
+      patch_info_create(bfromcstr("creator"), bfromcstr("title"),
+                        bfromcstr("directory"), bfromcstr("path"));
   Message *message = load_patch_message(patch_info);
   mu_assert(message != NULL, "Could not create load patch message");
   message_destroy(message);

@@ -1,4 +1,4 @@
-FROM debian:8.6 as builder
+FROM debian:stretch as builder
 
 MAINTAINER Guy John <patchwerk@rumblesan.com>
 
@@ -24,7 +24,7 @@ WORKDIR /opt/patchwerk
 RUN cd build; cmake ..; make
 
 
-FROM debian:jessie-slim
+FROM debian:stretch-slim
 
 RUN apt-get update
 RUN apt-get install -y libshout3 libconfig9 libvorbis-dev libsndfile1 libck-dev

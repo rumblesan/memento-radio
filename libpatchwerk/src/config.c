@@ -5,6 +5,7 @@
 #include "config.h"
 
 #include "bclib/dbg.h"
+#include "bclib/list.h"
 #include "logging.h"
 
 int config_setting_lookup_bstring(const config_setting_t *setting,
@@ -14,6 +15,31 @@ int config_setting_lookup_bstring(const config_setting_t *setting,
   if (rv)
     *value = bfromcstr(stringval);
   return rv;
+}
+
+int config_setting_lookup_bstring_list(config_setting_t *setting,
+                                       const char *path, List **values) {
+
+  List *l = list_create();
+  *values = l;
+
+  config_setting_t *rv = config_setting_lookup(setting, path);
+  if (config_setting_is_list(rv) == CONFIG_FALSE) {
+    err_logger("Config", "%s is not a list", path);
+    return 0;
+  }
+
+  int elems = config_setting_length(rv);
+
+  const char *stringval = NULL;
+  for (int i = 0; i < elems; i += 1) {
+    stringval = config_setting_get_string_elem(rv, i);
+    if (stringval != NULL) {
+      list_push(l, bfromcstr(stringval));
+    }
+  }
+
+  return 1;
 }
 
 RadioInputCfg *read_config(char *config_path) {
@@ -53,9 +79,11 @@ RadioInputCfg *read_config(char *config_path) {
             config_setting_lookup_bstring(
                 pdsetting, "patch_directory",
                 &(radio_config->puredata.patch_directory)) &&
-            config_setting_lookup_bstring(
-                pdsetting, "search_path",
-                &(radio_config->puredata.search_path)) &&
+            config_setting_lookup_bstring_list(
+                pdsetting, "search_paths",
+                &(radio_config->puredata.search_paths)) &&
+            config_setting_lookup_int(pdsetting, "verbose",
+                                      &(radio_config->puredata.verbose)) &&
             config_setting_lookup_bstring(pdsetting, "patch_file",
                                           &(radio_config->puredata.patch_file)),
         "Could not read pure data settings");
@@ -119,6 +147,11 @@ void destroy_config(RadioInputCfg *cfg) {
   check(cfg != NULL, "Invalid config");
   bdestroy(cfg->puredata.patch_directory);
   bdestroy(cfg->puredata.patch_file);
+  LIST_FOREACH(cfg->puredata.search_paths, first, next, cur) {
+    bdestroy(cur->value);
+  }
+  list_destroy(cfg->puredata.search_paths);
+
   bdestroy(cfg->chooser.pattern);
 
   bdestroy(cfg->broadcast.host);

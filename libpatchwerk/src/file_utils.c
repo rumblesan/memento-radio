@@ -60,8 +60,13 @@ PatchInfo *path_to_patchinfo(bstring path) {
 
   bstring artist = bstrcpy(l->entry[l->qty - 3]);
   bstring name = bstrcpy(l->entry[l->qty - 2]);
+  bstring patchfile = bstrcpy(l->entry[l->qty - 1]);
 
-  PatchInfo *pi = patch_info_create(artist, name, path);
+  // extra -1 to remove trailing slash
+  bstring directory =
+      bmidstr(path, 0, blength(path) - (blength(patchfile) + 1));
+
+  PatchInfo *pi = patch_info_create(artist, name, directory, patchfile);
 
   bstrListDestroy(l);
 

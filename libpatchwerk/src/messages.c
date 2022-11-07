@@ -58,12 +58,14 @@ error:
   return NULL;
 }
 
-PatchInfo *patch_info_create(bstring creator, bstring title, bstring filepath) {
+PatchInfo *patch_info_create(bstring creator, bstring title, bstring directory,
+                             bstring patch_file) {
   PatchInfo *info = malloc(sizeof(PatchInfo));
   check_mem(info);
   info->creator = creator;
   info->title = title;
-  info->filepath = filepath;
+  info->directory = directory;
+  info->patch_file = patch_file;
   return info;
 error:
   return NULL;
@@ -71,10 +73,12 @@ error:
 void patch_info_destroy(PatchInfo *info) {
   check(info->creator != NULL, "Invalid creator");
   check(info->title != NULL, "Invalid title");
-  check(info->filepath != NULL, "Invalid title");
+  check(info->directory != NULL, "Invalid directory");
+  check(info->patch_file != NULL, "Invalid title");
   bdestroy(info->creator);
   bdestroy(info->title);
-  bdestroy(info->filepath);
+  bdestroy(info->directory);
+  bdestroy(info->patch_file);
   free(info);
   return;
 error:

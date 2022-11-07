@@ -104,10 +104,12 @@ int load_next_patch(AudioSynthesisProcessConfig *cfg) {
   }
 
   PatchInfo *pinfo = cfg->next_patch_msg->payload;
-  logger("AudioSynthesis", "Loading file %s", bdata(pinfo->filepath));
-  void *pd_file = libpd_openfile(bdata(pinfo->filepath), "./");
+  logger("AudioSynthesis", "Loading patch %s in directory %s",
+         bdata(pinfo->patch_file), bdata(pinfo->directory));
+  void *pd_file =
+      libpd_openfile(bdata(pinfo->patch_file), bdata(pinfo->directory));
   check(pd_file != NULL, "Could not open pd patch: ./%s",
-        bdata(pinfo->filepath));
+        bdata(pinfo->patch_file));
   cfg->patch_file = pd_file;
 
   CreatorInfo *info =
@@ -135,8 +137,11 @@ int setup_pd(AudioSynthesisProcessConfig *cfg) {
   check(cfg != NULL, "AudioSynthesis: Invalid config");
   logger("AudioSynthesis", "initing pd");
   libpd_init();
-  libpd_add_to_search_path(bdata(cfg->pd_cfg->search_path));
-  libpd_add_to_search_path("/opt/patchwerk/samples");
+  LIST_FOREACH(cfg->pd_cfg->search_paths, first, next, cur) {
+    logger("AudioSynthesis", "Adding searchpath %s",
+           bdata((bstring)cur->value));
+    libpd_add_to_search_path(bdata((bstring)cur->value));
+  }
   logger("AudioSynthesis", "done initing pd");
 
   int pd_init = libpd_init_audio(0, cfg->channels, cfg->samplerate);
@@ -217,7 +222,7 @@ void fade_audio_in(AudioSynthesisProcessConfig *cfg, AudioBuffer *audio) {
   }
 }
 
-static void pd_printhook(const char *s) { logger("PD:", "%s", s); }
+static void pd_printhook(const char *s) { logger("PD", "%s", s); }
 
 void *start_audio_synthesis(void *_cfg) {
 
@@ -225,8 +230,10 @@ void *start_audio_synthesis(void *_cfg) {
 
   *(cfg->status_var) = 1;
 
-  // libpd_set_verbose(1);
-  libpd_set_printhook((t_libpd_printhook)pd_printhook);
+  if (cfg->pd_cfg->verbose != 0) {
+    libpd_set_verbose(1);
+  }
+  libpd_set_printhook(pd_printhook);
 
   check(!setup_pd(cfg), "Could not setup PureData");
   logger("AudioSynthesis", "PD setup");

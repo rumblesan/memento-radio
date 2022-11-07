@@ -22,7 +22,8 @@ typedef struct CreatorInfo {
 typedef struct PatchInfo {
   bstring creator;
   bstring title;
-  bstring filepath;
+  bstring directory;
+  bstring patch_file;
 } PatchInfo;
 
 typedef struct Message {
@@ -34,7 +35,7 @@ Message *message_create(MessageType type, void *payload);
 
 void message_destroy(Message *message);
 
-PatchInfo *patch_info_create(bstring creator, bstring title, bstring filepath);
+PatchInfo *patch_info_create(bstring creator, bstring title, bstring directory, bstring filepath);
 void patch_info_destroy(PatchInfo *info);
 
 CreatorInfo *creator_info_create(bstring creator, bstring title);

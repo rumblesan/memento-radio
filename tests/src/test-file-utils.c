@@ -13,7 +13,9 @@ char *test_path_to_patch_info() {
 
   mu_assert(biseq(pi->creator, bfromcstr("creator")), "creator incorrect");
   mu_assert(biseq(pi->title, bfromcstr("patch")), "title incorrect");
-  mu_assert(biseq(pi->filepath, path), "path incorrect");
+  mu_assert(biseq(pi->directory, bfromcstr("./patterns/creator/patch")),
+            "path incorrect");
+  mu_assert(biseq(pi->patch_file, bfromcstr("main.pd")), "path incorrect");
 
   patch_info_destroy(pi);
   return NULL;
