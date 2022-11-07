@@ -1,11 +1,11 @@
 version: '3.9'
 
 services:
-  patchwerk:
+  memento:
     build: .
     volumes:
-      - ./samples:/opt/patchwerk/samples
-    image: rumblesan/patchwerk-radio
+      - ./samples:/opt/memento/samples
+    image: rumblesan/memento-radio
   icecast:
     image: moul/icecast
     environment:
