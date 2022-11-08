@@ -26,10 +26,14 @@ Commands:
         Run in the foreground
     run optfolder [tag] [name]
         Run in the background
+    cleanup
+        Stop and then remove the container
+    redeploy optfolder [tag] [name]
+        pull latest version, remove running container and then redeploy the new one
     connect [name]
         Connect to a bash session on a running container
-    stats [name]
-        Stats on running process
+    logs
+        Logs for container
 
     [name] always defaults to *memento-radio*
     [tag] always defaults to *latest*
@@ -100,9 +104,12 @@ cleanup() {
 }
 
 redeploy() {
+  if [ -z "$1" ]; then
+    die "Need to give opt folder"
+  fi
   pull
   cleanup
-  run
+  run "$1"
 }
 
 connect() {
@@ -110,9 +117,8 @@ connect() {
   docker exec -it $CONTAINER_NAME bash
 }
 
-stats() {
-  echo "Connecting to $CONTAINER_NAME"
-  docker exec $CONTAINER_NAME ps up $(docker exec $CONTAINER_NAME pgrep -f 'slow')
+logs() {
+  docker logs $CONTAINER_NAME
 }
 
 runaction() {
@@ -147,8 +153,8 @@ runaction() {
   "connect")
     connect
     ;;
-  "stats")
-    stats
+  "logs")
+    logs
     ;;
   *)
     usage
