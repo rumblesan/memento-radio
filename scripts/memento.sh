@@ -138,6 +138,9 @@ runaction() {
   "run")
     run "${@:2}"
     ;;
+  "redeploy")
+    redeploy
+    ;;
   "cleanup")
     cleanup
     ;;
