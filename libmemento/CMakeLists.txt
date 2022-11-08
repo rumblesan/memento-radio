@@ -17,12 +17,12 @@ set(SOURCES
   "src/patch_chooser_process.c"
   )
 
-add_library(libpatchwerk ${SOURCES})
+add_library(libmemento ${SOURCES})
 
-target_link_libraries(libpatchwerk bclib)
-target_link_libraries(libpatchwerk ck)
-target_link_libraries(libpatchwerk shout m)
-target_link_libraries(libpatchwerk config)
-target_link_libraries(libpatchwerk vorbis vorbisfile ogg vorbisenc)
-target_link_libraries(libpatchwerk pthread)
-target_link_libraries(libpatchwerk pd)
+target_link_libraries(libmemento bclib)
+target_link_libraries(libmemento ck)
+target_link_libraries(libmemento shout m)
+target_link_libraries(libmemento config)
+target_link_libraries(libmemento vorbis vorbisfile ogg vorbisenc)
+target_link_libraries(libmemento pthread)
+target_link_libraries(libmemento pd)

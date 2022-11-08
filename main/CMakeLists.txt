@@ -5,7 +5,7 @@ set(SOURCES "src/main.c")
 
 add_executable(memento ${SOURCES})
 
-target_link_libraries(memento libpatchwerk)
+target_link_libraries(memento libmemento)
 
 install(TARGETS memento EXPORT MementoRadioTargets
     RUNTIME DESTINATION bin

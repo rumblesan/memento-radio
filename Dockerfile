@@ -16,7 +16,7 @@ RUN cd /opt/libpd && make && make install
 
 RUN mkdir -p /opt/memento/build
 COPY CMakeLists.txt /opt/memento
-COPY libpatchwerk /opt/memento/libpatchwerk
+COPY libmemento /opt/memento/libmemento
 COPY main /opt/memento/main
 COPY tests /opt/memento/tests
 
