@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <title>Memento Radio</title>
+  <link rel='stylesheet' href='site/style.css' type='text/css' media='all' />
+  <link rel="icon" type="image/png" href="site/favicon.ico">
+<head>
+  <body>
+    <div id="content">
+
+      <div id="song-info">Loading ...</div>
+
+      <audio controls="controls" preload="none" autoplay>
+        <source src="http://falcon.shoutca.st:8047/memento.ogg" type="application/ogg"></source>
+      </audio>
+
+      <div id="tunein">
+        <a href="https://falcon.shoutca.st:8047/tunein/memento.pls">
+          <img src="https://falcon.shoutca.st:8047/system/images/tunein-pls.png" alt="Winamp, iTunes" title="Winamp, iTunes" />
+        </a>
+        <a href="https://falcon.shoutca.st:8047/tunein/memento.asx">
+          <img src="https://falcon.shoutca.st:8047/system/images/tunein-asx.png" alt="Windows Media Player" title="Windows Media Player" />
+        </a>
+        <a href="https://falcon.shoutca.st:8047/tunein/memento.ram">
+          <img src="https://falcon.shoutca.st:8047/system/images/tunein-ram.png" alt="Real Player" title="Real Player" />
+        </a>
+        <a href="https://falcon.shoutca.st:8047/tunein/memento.qtl">
+          <img src="https://falcon.shoutca.st:8047/system/images/tunein-qtl.png" alt="QuickTime" title="QuickTime" />
+        </a>
+      </div>
+    </div>
+
+    <div id="footer">
+      <div>Code available from <a href="https://github.com/rumblesan/memento-radio">Github</a></div>
+    </div>
+    <script language="javascript" type="text/javascript" src="site/jsonp.min.js"></script>
+    <script language="javascript" type="text/javascript" src="site/streaminfo.js"></script>
+  </body>
+</html>
