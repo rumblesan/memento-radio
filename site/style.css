@@ -24,6 +24,8 @@ html {
 }
 #tunein a {
     text-decoration: none;
+    padding: 10px;
+    color: #ddd;
 }
 #footer {
     position: fixed;
