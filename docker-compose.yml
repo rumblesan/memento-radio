@@ -5,6 +5,7 @@ services:
     build: .
     volumes:
       - ./samples:/opt/memento/samples
+      - ./cfg:/opt/memento/cfg
     image: rumblesan/memento-radio
   icecast:
     image: moul/icecast
