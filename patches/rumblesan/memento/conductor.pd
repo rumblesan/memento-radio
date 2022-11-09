@@ -17,7 +17,7 @@
 #X obj 129 759 list trim;
 #X obj 326 392 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#N canvas 103 269 1197 785 muzac 1;
+#N canvas 102 269 1197 785 muzac 1;
 #X obj 222 160 t b b;
 #X obj 320 597 s \$0-out;
 #X msg 273 373 1 \$1;
@@ -29,21 +29,25 @@
 #X msg 104 427 start;
 #X obj 273 421 list prepend speed;
 #X obj 309 543 list prepend muzac;
-#X obj 871 152 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 666 77 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 871 172 metro 1 60 sec;
-#X msg 871 196 read ../samples/muzac/filelist.txt;
+#X obj 666 97 metro 1 60 sec;
+#X msg 666 121 read ../samples/muzac/filelist.txt;
 #X obj 499 283 t b b;
-#X obj 871 220 text define \$0-muzac-filelist;
+#X obj 666 145 text define \$0-muzac-filelist;
 #X obj 531 307 text size \$0-muzac-filelist;
 #X obj 499 331 random 1;
 #X obj 499 355 text get \$0-muzac-filelist;
-#X obj 871 128 loadbang;
+#X obj 666 53 loadbang;
 #X msg 499 429 load \$1;
 #X obj 528 223 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 499 379 route symbol;
 #X obj 499 403 makefilename ../samples/muzac/%s;
+#X obj 866 169 t b;
+#X obj 866 193 text size \$0-muzac-filelist;
+#X obj 866 241 print muzac;
+#X msg 866 217 reloaded filelist with \$1 entries;
 #X connect 0 0 8 0;
 #X connect 0 1 4 0;
 #X connect 0 1 14 0;
@@ -61,6 +65,7 @@
 #X connect 13 0 15 0;
 #X connect 14 0 17 0;
 #X connect 14 1 16 0;
+#X connect 15 1 24 0;
 #X connect 16 0 17 1;
 #X connect 17 0 18 0;
 #X connect 18 0 22 0;
@@ -69,6 +74,9 @@
 #X connect 21 0 14 0;
 #X connect 22 0 23 0;
 #X connect 23 0 20 0;
+#X connect 24 0 25 0;
+#X connect 25 0 27 0;
+#X connect 27 0 26 0;
 #X restore 373 459 pd muzac;
 #X obj 810 308 < 2;
 #X obj 809 338 sel 1;
@@ -77,7 +85,7 @@
 #X obj 811 255 random 10;
 #X obj 768 342 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
-#N canvas 1363 131 1197 785 vox 0;
+#N canvas 1083 166 1197 785 vox 1;
 #X obj 135 129 t b b;
 #X obj 140 569 s \$0-out;
 #X msg 221 324 1 \$1;
@@ -92,12 +100,12 @@
 #X obj 867 277 random 100;
 #X obj 867 301 / 100;
 #X msg 867 325 duration \$1;
-#X obj 611 74 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 543 47 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
-#X obj 611 94 metro 1 60 sec;
-#X obj 611 50 loadbang;
-#X msg 611 118 read ../samples/vox/filelist.txt;
-#X obj 611 142 text define \$0-vox-filelist;
+#X obj 543 67 metro 1 60 sec;
+#X obj 543 23 loadbang;
+#X msg 543 91 read ../samples/vox/filelist.txt;
+#X obj 543 115 text define \$0-vox-filelist;
 #X obj 410 229 t b b;
 #X obj 410 277 random 1;
 #X msg 410 373 load \$1;
@@ -105,6 +113,10 @@
 #X obj 410 301 text get \$0-vox-filelist;
 #X obj 410 325 route symbol;
 #X obj 410 349 makefilename ../samples/vox/%s;
+#X obj 729 139 t b;
+#X obj 729 163 text size \$0-muzac-filelist;
+#X msg 729 187 reloaded filelist with \$1 entries;
+#X obj 729 211 print vox;
 #X connect 0 0 8 0;
 #X connect 0 1 11 0;
 #X connect 0 1 4 0;
@@ -125,6 +137,7 @@
 #X connect 15 0 17 0;
 #X connect 16 0 14 0;
 #X connect 17 0 18 0;
+#X connect 18 1 26 0;
 #X connect 19 0 20 0;
 #X connect 19 1 22 0;
 #X connect 20 0 23 0;
@@ -133,6 +146,9 @@
 #X connect 23 0 24 0;
 #X connect 24 0 25 0;
 #X connect 25 0 21 0;
+#X connect 26 0 27 0;
+#X connect 27 0 28 0;
+#X connect 28 0 29 0;
 #X restore 815 409 pd vox;
 #N canvas 409 292 1925 886 coms 0;
 #X obj 466 300 gen-seq;
@@ -188,7 +204,7 @@
 #X obj 571 385 sel 1;
 #X obj 600 412 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 530 389 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 530 389 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 126 319 random 100;
 #X obj 126 343 < 30;
