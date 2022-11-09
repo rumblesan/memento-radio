@@ -48,9 +48,9 @@ int main(int argc, char *argv[]) {
   ck_ring_buffer_t *encode2broadcast_buffer = NULL;
 
   startup_log("MementoRadio", "Hello, Memento Radio");
-  time_t t = time(NULL);
-  logger("MementoRadio", "%s", asctime(gmtime(&t)));
-  srand((unsigned)t);
+  time_t start_time = time(NULL);
+  logger("MementoRadio", "%s", asctime(gmtime(&start_time)));
+  srand((unsigned)start_time);
 
   check(argc == 2, "Need to give config file path argument");
 
@@ -132,8 +132,10 @@ int main(int argc, char *argv[]) {
 
   int as2enc_msgs = 0;
   int enc2brd_msgs = 0;
+  int log_interval = 10;
+  int log_count = 0;
   while (1) {
-    sleep(radio_config->system.stats_interval);
+    sleep(radio_config->system.healthcheck_interval);
     if (audio_synth_status == 0) {
       err_logger("SlowRadio", "Stopped Synthesising!");
       break;
@@ -146,10 +148,17 @@ int main(int argc, char *argv[]) {
       err_logger("SlowRadio", "Stopped Broadcasting!");
       break;
     }
-    as2enc_msgs = ck_ring_size(audio2encode);
-    enc2brd_msgs = ck_ring_size(encode2broadcast);
-    logger("SlowRadio", "Messages: audio synth %d encoder %d broadcast",
-           as2enc_msgs, enc2brd_msgs);
+    log_count += 1;
+    if (log_count > log_interval) {
+      as2enc_msgs = ck_ring_size(audio2encode);
+      enc2brd_msgs = ck_ring_size(encode2broadcast);
+      logger("Memento Radio", "%d messages in encoder pipe", as2enc_msgs);
+      logger("Memento Radio", "%d messages in broadcast pipe", enc2brd_msgs);
+      time_t now = time(NULL);
+      double time_delta = difftime(now, start_time);
+      logger("Memento Radio", "uptime %.2f hours", time_delta / (60 * 60));
+      log_count = 0;
+    }
   }
 
   logger("SlowRadio", "Stopping");

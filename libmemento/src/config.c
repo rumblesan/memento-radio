@@ -126,8 +126,9 @@ RadioInputCfg *read_config(char *config_path) {
       syssetting != NULL &&
           config_setting_lookup_int(syssetting, "thread_sleep",
                                     &(radio_config->system.thread_sleep)) &&
-          config_setting_lookup_int(syssetting, "stats_interval",
-                                    &(radio_config->system.stats_interval)) &&
+          config_setting_lookup_int(
+              syssetting, "healthcheck_interval",
+              &(radio_config->system.healthcheck_interval)) &&
           config_setting_lookup_int(syssetting, "max_push_messages",
                                     &(radio_config->system.max_push_messages)),
       "Could not read system settings");

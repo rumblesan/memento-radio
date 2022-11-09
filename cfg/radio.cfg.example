@@ -35,7 +35,7 @@ broadcast = {
 }
 
 system = {
-    stats_interval = 10;
+    healthcheck_interval = 10;
     thread_sleep = 10;
     max_push_messages = 10;
 }

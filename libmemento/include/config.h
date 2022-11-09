@@ -38,7 +38,7 @@ typedef struct BroadcastInputCfg {
 
 typedef struct SystemInputCfg {
   int thread_sleep;
-  int stats_interval;
+  int healthcheck_interval;
   int max_push_messages;
 } SystemInputCfg;
 
