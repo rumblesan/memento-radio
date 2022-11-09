@@ -118,7 +118,7 @@ connect() {
 }
 
 logs() {
-  docker logs $CONTAINER_NAME
+  docker logs -f $CONTAINER_NAME
 }
 
 runaction() {
