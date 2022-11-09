@@ -1,4 +1,4 @@
-#N canvas 286 316 1855 807 12;
+#N canvas 331 189 1855 937 12;
 #X obj 1178 133 inlet;
 #X obj 1178 157 route noise;
 #X obj 1178 205 dispatch \$0 density 0.3;

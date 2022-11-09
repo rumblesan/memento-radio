@@ -1,5 +1,5 @@
-#N canvas 589 43 1971 1163 12;
-#X obj 157 400 outlet~;
+#N canvas 437 131 1971 1163 12;
+#X obj 158 469 outlet~;
 #X obj 1714 41 inlet;
 #X obj 1714 65 route atmospherics;
 #N canvas 391 72 806 932 verb 0;
@@ -58,15 +58,15 @@
 #X connect 24 0 12 1;
 #X connect 24 0 25 1;
 #X connect 25 0 1 0;
-#X restore 153 354 pd verb;
+#X restore 123 343 pd verb;
 #X obj 1714 113 dispatch \$0 delay 83;
 #X obj 1714 137 dispatch \$0 delay-feedback 0.4;
 #X obj 284 807 vsl 25 150 0 10 0 0 \$0-noisemod-ctrl-s \$0-noisemod-ctrl-r
-noisemod 0 -9 0 10 -262144 -1 -1 2380 1;
+noisemod 0 -9 0 10 -262144 -1 -1 1900 1;
 #X obj 347 806 vsl 25 150 0 40 0 0 \$0-moddepth-ctrl-s \$0-moddepth-ctrl-r
-moddepth 0 -9 0 10 -262144 -1 -1 1370 1;
+moddepth 0 -9 0 10 -262144 -1 -1 14400 1;
 #X obj 414 802 vsl 25 150 250 2500 1 0 \$0-hipass-ctrl-s \$0-hipass-ctrl-r
-hipass 0 -9 0 10 -262144 -1 -1 1800 1;
+hipass 0 -9 0 10 -262144 -1 -1 7000 1;
 #X floatatom 624 760 10 0 0 2 attack #0-vol-env-attack-ctrl-r #0-vol-env-attack-ctrl-s
 ;
 #X floatatom 624 794 10 0 0 2 time #0-vol-env-time-ctrl-r #0-vol-env-time-ctrl-s
@@ -173,14 +173,14 @@ hipass 0 -9 0 10 -262144 -1 -1 1800 1;
 #X msg 1743 789 mod-freq-env-time \$1;
 #X obj 1743 837 r \$0-mod-freq-env-depth-ctrl-s;
 #X msg 1743 861 mod-freq-env-depth \$1;
-#X obj 160 305 atmospherics-synth;
-#X obj 226 241 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 84 277 atmospherics-synth;
+#X obj 150 213 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 230 216 r \$0-trig;
+#X obj 154 188 r \$0-trig;
 #X floatatom 535 798 10 0 0 2 mod_freq #0-modfreq-ctrl-r #0-modfreq-ctrl-s
 ;
 #X floatatom 536 763 10 0 0 2 freq #0-freq-ctrl-r #0-freq-ctrl-s;
-#X obj 283 281 r \$0-change-synth-value;
+#X obj 207 253 r \$0-change-synth-value;
 #X obj 1521 958 r \$0-flush-ctrl-s;
 #X obj 1521 1134 send;
 #X obj 1521 1110 t b s;
@@ -219,12 +219,17 @@ hipass 0 -9 0 10 -262144 -1 -1 1800 1;
 #X msg 987 256 1;
 #X obj 1025 397 s \$0-preset-number-ctrl-r;
 #X obj 1714 185 dispatch \$0 start;
-#X obj 187 181 r \$0-start;
+#X obj 111 153 r \$0-start;
 #X msg 1050 253 dir 0 atmos-presets;
 #X obj 816 394 preset-saver atmos-presets;
+#X obj 230 344 r \$0-volume;
+#X msg 230 368 \$1 10;
+#X obj 230 392 line;
+#X obj 160 432 *~;
+#X obj 1714 209 dispatch \$0 volume 0.1;
 #X connect 1 0 2 0;
 #X connect 2 0 130 0;
-#X connect 3 0 0 0;
+#X connect 3 0 142 0;
 #X connect 4 0 5 0;
 #X connect 5 0 127 0;
 #X connect 19 0 20 0;
@@ -314,6 +319,11 @@ hipass 0 -9 0 10 -262144 -1 -1 1800 1;
 #X connect 132 0 138 0;
 #X connect 133 0 132 0;
 #X connect 133 0 134 0;
+#X connect 135 0 143 0;
 #X connect 136 0 97 0;
 #X connect 137 0 24 0;
 #X connect 138 0 27 0;
+#X connect 139 0 140 0;
+#X connect 140 0 141 0;
+#X connect 141 0 142 1;
+#X connect 142 0 0 0;
