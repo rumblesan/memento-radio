@@ -1,0 +1,4 @@
+genmod 541
+genoffset 92.1
+gengain 3
+genhipass 940

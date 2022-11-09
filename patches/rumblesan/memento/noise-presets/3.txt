@@ -1,0 +1,4 @@
+genmod 768
+genoffset 127.1
+gengain 31
+genhipass 4000
