@@ -7,6 +7,7 @@ services:
       - ./samples:/opt/memento/samples
       - ./cfg:/opt/memento/cfg
     image: rumblesan/memento-radio
+    command: memento /opt/memento/cfg/local.cfg
   icecast:
     image: moul/icecast
     environment:
