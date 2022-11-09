@@ -145,7 +145,7 @@ runaction() {
     run "${@:2}"
     ;;
   "redeploy")
-    redeploy
+    redeploy "${@:2}"
     ;;
   "cleanup")
     cleanup
