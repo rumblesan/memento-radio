@@ -1,4 +1,4 @@
-lopass 1000
+lopass 3000
 noisemod 450
 modfreq 50
 hipass 250

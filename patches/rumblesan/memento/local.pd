@@ -1,4 +1,4 @@
-#N canvas 1473 422 1033 750 12;
+#N canvas 693 268 1033 750 12;
 #X declare -path ../../;
 #X obj 78 168 main;
 #X text 26 15 This patch is for local testing. The main radio patch

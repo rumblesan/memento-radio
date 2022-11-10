@@ -2,3 +2,8 @@ genmod 768
 genoffset 1
 gengain 31
 genhipass 1000
+lopass 10
+noisemod 1000
+modfreq 50
+gain 0.9
+hipass 1000

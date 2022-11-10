@@ -1,4 +1,5 @@
-genmod 511
-genoffset 114
-gengain 141
-genhipass 1000
+lopass 200
+noisemod 100
+modfreq 1
+hipass 1000
+gain 100

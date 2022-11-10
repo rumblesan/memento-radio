@@ -1,0 +1,8 @@
+noisemod 2
+vibrato-speed 1.2
+lopass 5000
+hipass 2000
+vibrato-depth 0.37
+gain 1.2
+modfreq 500
+noise 0.44

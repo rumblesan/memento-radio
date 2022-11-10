@@ -1,0 +1,5 @@
+#N canvas 936 212 1082 748 12;
+#X obj 351 214 dac~;
+#X obj 351 190 tuning-noise tuning-noise-presets;
+#X connect 1 0 0 0;
+#X connect 1 0 0 1;

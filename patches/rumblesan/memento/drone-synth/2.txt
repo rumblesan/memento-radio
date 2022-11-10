@@ -1,0 +1,10 @@
+op1-attack 5000
+op2-attack 7000
+op1-decay 2500
+op2-decay 2700
+op1-sustain 100
+op2-sustain 125
+op2-ratio 0.5
+op1-release 7000
+op2-release 8000
+note-length 10000

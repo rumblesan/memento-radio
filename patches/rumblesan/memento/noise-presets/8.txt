@@ -1,0 +1,5 @@
+lopass 3000
+noisemod 50
+modfreq 250
+hipass 400
+gain 20
