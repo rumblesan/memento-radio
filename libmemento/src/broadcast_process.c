@@ -164,9 +164,13 @@ void *start_broadcast(void *_cfg) {
   FileChunk *input_audio;
 
   logger("Broadcast", "Connected to server...");
+  int err_count = 0;
+  int max_errs = 10;
   while (true) {
     if (!ck_ring_dequeue_spsc(cfg->pipe_in, cfg->pipe_in_buffer, &input_msg)) {
       err_logger("Broadcast", "Could not get input message");
+      err_count += 1;
+      check(err_count < max_errs, "Broadcast: too many errors");
       nanosleep(&tim, &tim2);
       sched_yield();
       continue;
@@ -176,12 +180,14 @@ void *start_broadcast(void *_cfg) {
       message_destroy(input_msg);
       break;
     } else if (input_msg->type == FILECHUNK) {
+      err_count = 0;
       input_audio = input_msg->payload;
       int ret = shout_send(shout, input_audio->data, input_audio->length);
       check(ret == SHOUTERR_SUCCESS, "Broadcast: Send error: %s",
             shout_get_error(shout));
       message_destroy(input_msg);
     } else {
+      err_count += 1;
       err_logger("Broadcast", "Received invalid message of type %d",
                  input_msg->type);
       message_destroy(input_msg);
