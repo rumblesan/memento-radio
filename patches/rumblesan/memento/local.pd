@@ -1,7 +1,7 @@
-#N canvas 693 268 1033 750 12;
+#N canvas 140 71 559 249 12;
 #X declare -path ../../;
 #X obj 78 168 main;
 #X text 26 15 This patch is for local testing. The main radio patch
 communicates with the serving process so this helps wrap that.;
-#X obj 410 101 declare -path ../../;
-#X text 640 100 needed locally so patch can see samples;
+#X obj 79 112 declare -path ../../;
+#X text 242 112 needed locally so patch can see samples;

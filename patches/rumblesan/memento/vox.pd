@@ -1,4 +1,4 @@
-#N canvas 594 172 1966 858 12;
+#N canvas 0 25 1440 847 12;
 #X obj 986 73 inlet;
 #X obj 986 208 s \$0-to-sampler;
 #X obj 106 642 outlet~;

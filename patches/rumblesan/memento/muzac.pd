@@ -1,4 +1,4 @@
-#N canvas 175 355 1963 1016 12;
+#N canvas 0 25 1440 847 12;
 #X obj 1372 116 inlet;
 #X obj 1372 140 route muzac;
 #X obj 1365 425 s \$0-to-sampler;
