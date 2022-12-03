@@ -90,7 +90,7 @@
 #X obj 948 305 route morse;
 #X obj 948 329 s \$0-to-morse;
 #X obj 269 577 r \$0-to-morse;
-#X obj 944 250 dispatch \$0 volume 0.4;
+#X obj 944 250 dispatch \$0 volume 0.2;
 #X connect 0 0 59 0;
 #X connect 1 0 10 0;
 #X connect 2 0 10 0;
