@@ -1,4 +1,4 @@
-#N canvas 212 73 1099 700 12;
+#N canvas 499 219 1099 700 12;
 #X obj 93 73 conductor;
 #X obj 558 510 dac~;
 #X obj 663 392 noise;
