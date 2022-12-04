@@ -39,6 +39,6 @@ COPY patches /opt/memento/patches
 
 # this feels sketchy...
 COPY --from=builder /usr/local/lib/libpd.so /usr/local/lib/
-COPY ./cfg/radio.cfg /opt/memento/cfg
+COPY cfg /opt/memento/cfg
 
 CMD ["memento", "/opt/memento/cfg/radio.cfg"]
