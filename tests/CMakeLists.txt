@@ -9,6 +9,7 @@ set(TEST_SOURCES
     "src/test-patch-chooser.c"
     "src/test-config.c"
     "src/test-file-utils.c"
+    "src/test-broadcaster.c"
     )
 
 foreach(TEST_FILE ${SOURCES} ${TEST_SOURCES})

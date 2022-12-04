@@ -1,4 +1,3 @@
-
 #include "audio_buffer.h"
 #include "encoder_process.h"
 #include "messages.h"

@@ -5,7 +5,7 @@
 char *test_config_read() {
 
   RadioInputCfg *cfg = NULL;
-  cfg = read_config("../../cfg/radio.cfg");
+  cfg = read_config("../../cfg/radio.cfg.example");
   mu_assert(cfg != NULL, "Could not read config");
 
   mu_assert(list_count(cfg->puredata.search_paths) == 1,
