@@ -204,7 +204,6 @@ error:
     shout_shutdown();
     shout_free(shout);
   }
-  broadcast_config_destroy(cfg);
   logger("Broadcast", "Cleaned up");
   pthread_exit(NULL);
   return NULL;

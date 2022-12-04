@@ -234,8 +234,6 @@ void *start_encoder(void *_cfg) {
 error:
   logger("Encoder", "Finished");
   *(cfg->status_var) = 0;
-  if (cfg != NULL)
-    encoder_config_destroy(cfg);
   if (encoder != NULL)
     cleanup_encoder(encoder);
   logger("Encoder", "Cleaned up");

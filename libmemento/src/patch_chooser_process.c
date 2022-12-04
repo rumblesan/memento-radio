@@ -100,7 +100,6 @@ void *start_patch_chooser(void *_cfg) {
 error:
   logger("PatchChooser", "Finished");
   *(cfg->status_var) = 0;
-  patch_chooser_config_destroy(cfg);
   logger("PatchChooser", "Cleaned up");
   pthread_exit(NULL);
   return NULL;
