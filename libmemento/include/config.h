@@ -3,6 +3,12 @@
 #include "bclib/bstrlib.h"
 #include "bclib/list.h"
 
+typedef struct APICfg {
+  bstring host;
+  bstring port;
+  bstring script_path;
+} APICfg;
+
 typedef struct AudioInputCfg {
   int channels;
   int samplerate;
@@ -46,6 +52,7 @@ typedef struct RadioInputCfg {
   PureDataInputCfg puredata;
   PatchChooserCfg chooser;
   AudioInputCfg audio;
+  APICfg api;
   SystemInputCfg system;
   EncoderInputCfg encoder;
   BroadcastInputCfg broadcast;

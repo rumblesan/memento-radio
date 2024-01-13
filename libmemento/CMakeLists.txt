@@ -4,6 +4,7 @@ include_directories(include)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -std=c99 -D_POSIX_C_SOURCE=199309L")
 
 set(SOURCE_HEADERS
+  "include/api_process.h"
   "include/audio_buffer.h"
   "include/audio_synthesis_process.h"
   "include/broadcast_process.h"
@@ -19,6 +20,7 @@ set(SOURCE_HEADERS
   )
 
 set(SOURCES
+  "src/api_process.c"
   "src/audio_buffer.c"
   "src/audio_synthesis_process.c"
   "src/broadcast_process.c"
@@ -41,3 +43,4 @@ target_link_libraries(libmemento config)
 target_link_libraries(libmemento vorbis vorbisfile ogg vorbisenc)
 target_link_libraries(libmemento pthread)
 target_link_libraries(libmemento pd)
+target_link_libraries(libmemento lua5.4)

@@ -5,6 +5,11 @@ audio = {
     fadetime = 5.0;
 }
 
+api = {
+    host = "0.0.0.0"
+    port = "8080"
+}
+
 patchchooser = {
     pattern = "./patches/**/**/main.pd"
 }

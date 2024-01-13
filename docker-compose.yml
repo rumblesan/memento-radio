@@ -8,6 +8,8 @@ services:
       - ./cfg:/opt/memento/cfg
     image: rumblesan/memento-radio
     command: memento /opt/memento/cfg/local.cfg
+    ports:
+      - "8080:8080"
   icecast:
     image: moul/icecast
     environment:
