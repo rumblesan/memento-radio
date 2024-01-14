@@ -6,6 +6,7 @@ audio = {
 }
 
 api = {
+    script_path = "/opt/memento/lua/webserver.lua";
     host = "0.0.0.0"
     port = "8080"
 }
@@ -17,6 +18,7 @@ patchchooser = {
 puredata = {
     patch_directory = "/opt/memento/patches";
     search_paths = (
+        "/opt/memento/externals",
         "/opt/memento/samples"
         );
     patch_file = "/opt/memento/patches/rumblesan/memento/main.pd";
@@ -36,7 +38,7 @@ broadcast = {
     name        = "Memento Radio";
     description = "A PureData radio station";
     genre       = "Ambient Drone";
-    url         = "http://rumblesan.com";
+    url         = "http://memento.rumblesan.com";
 }
 
 system = {
