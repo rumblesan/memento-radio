@@ -30,6 +30,7 @@ RUN apt-get update
 RUN apt-get install -y git make
 RUN apt-get install -y libshout3 libconfig9 libvorbis-dev libsndfile1 libck-dev libssl-dev
 RUN apt-get install -y liblua5.4-dev luarocks
+
 RUN mkdir -p /opt/memento/app
 RUN mkdir -p /opt/memento/cfg
 RUN mkdir -p /opt/memento/patches

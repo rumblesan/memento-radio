@@ -6,6 +6,7 @@ services:
     volumes:
       - ./samples:/opt/memento/samples
       - ./cfg:/opt/memento/cfg
+      - ./lua:/opt/memento/lua
     image: rumblesan/memento-radio
     command: memento /opt/memento/cfg/local.cfg
     ports:
