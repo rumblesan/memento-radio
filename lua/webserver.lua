@@ -16,9 +16,7 @@ app.add_handler("GET", "/health",
     end
 )
 
-print(" INFO: [API Server] running at " .. API_HOST .. ":" .. API_PORT)
+-- api_config passed in from C
+print(" INFO: [API Server] running at " .. api_config.HOST .. ":" .. api_config.PORT)
 
-app.start({
-    HOST = API_HOST,
-    PORT = API_PORT
-})
+app.start(api_config)

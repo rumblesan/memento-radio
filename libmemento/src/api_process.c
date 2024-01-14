@@ -53,10 +53,17 @@ void *start_api(void *_cfg) {
 
   logger("API", "Starting API");
 
+  lua_createtable(L, 0, 2);
+
+  lua_pushstring(L, "HOST");
   lua_pushlstring(L, bdata(cfg->host), cfg->host->slen);
-  lua_setglobal(L, "API_HOST");
+  lua_settable(L, -3);
+
+  lua_pushstring(L, "PORT");
   lua_pushlstring(L, bdata(cfg->port), cfg->port->slen);
-  lua_setglobal(L, "API_PORT");
+  lua_settable(L, -3);
+
+  lua_setglobal(L, "api_config");
 
   logger("API", "Loading script %s", bdata(cfg->script_path));
   if (luaL_dofile(L, bdata(cfg->script_path)) == LUA_OK) {
